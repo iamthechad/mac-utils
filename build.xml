@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="all" name="Mac Utilities">
+
+<property name="src.dir" value="./src" />
+<property name="build.dir" value="./build" />
+<property name="dist.dir" value="./dist" />
+<property name="ant.dir" value="${ant.home}" />
+<property name="ant.lib" value="${ant.dir}/lib" />
+
+<target name="all" depends="cleanall, dist"/>
+
+<target name="init">
+    <mkdir dir="${build.dir}" />
+</target>
+
+<target name="compile" depends="init">
+    <javac srcdir="${src.dir}"
+           destdir="${build.dir}">
+           <classpath>
+                <fileset dir="${ant.lib}">
+                    <include name="**/*.jar" />
+                </fileset>
+           </classpath>
+    </javac>
+    <copy todir="${build.dir}">
+        <fileset dir="${src.dir}"/>
+    </copy>
+</target>
+
+
+<target name="dist" depends="compile">
+    <mkdir dir="${dist.dir}" />
+    <jar jarfile="${dist.dir}/MacUtils.jar">
+        <fileset dir="${build.dir}">
+            <include name="**/*.class"/>
+        </fileset>
+    	<fileset dir="${src.dir}">
+    		<include name="**/*.java"/>
+    	</fileset>
+    </jar>
+</target>
+
+<target name="clean">
+    <delete dir="${build.dir}"/>
+</target>
+
+<target name="cleanall" depends="clean">
+    <delete dir="${dist.dir}" />
+    <delete>
+        <fileset dir="${src.dir}">
+            <include name="**/*.class"/>
+        </fileset>
+    </delete>
+</target>
+    
+</project>
